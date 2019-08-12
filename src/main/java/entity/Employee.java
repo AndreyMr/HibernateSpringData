@@ -2,11 +2,12 @@ package entity;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
 @Entity
 @Table(name = "EMPLOYEE")
-public class Employee {
+public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,7 +17,7 @@ public class Employee {
     private String lastName;
     @Column(name = "BIRTHDAY")
     private Date birthday;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "ADDRESS_ID",cascade = CascadeType.ALL)
     private Address address;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

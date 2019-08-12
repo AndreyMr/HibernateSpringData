@@ -6,6 +6,10 @@ import entity.Address;
 import entity.Employee;
 import entity.Project;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import repositories.AddressRepo;
+import repositories.EmployeeRepo;
+import repositories.ProjectRepo;
 import service.AddressDAOService;
 import service.EmployeeDAOService;
 import service.ProjectDAOService;
@@ -18,6 +22,11 @@ import java.util.Set;
 
 public class Start {
     public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context");
+
+        AddressRepo addressRepo = context.getBean(AddressRepo.class);
+        ProjectRepo projectRepo = context.getBean(ProjectRepo.class);
+        EmployeeRepo employeeRepo = context.getBean(EmployeeRepo.class);
 
         Address address = new Address();
         address.setCountry("DC");
@@ -43,16 +52,16 @@ public class Start {
         projects.add(project);
         employee.setProjects(projects);
 
-        AddressDAO addressDAO = new AddressDAOService();
-        EmployeeDAO employeeDAO = new EmployeeDAOService();
-        ProjectDAO projectDAO = new ProjectDAOService();
 
-  /*      addressDAO.add(address);
+        /*      addressDAO.add(address);
         employeeDAO.add(employee);
         projectDAO.add(project);
         */
-        Address a = addressDAO.getById(1L);
-        System.out.println(a);
+        addressRepo.save(address);
+        projectRepo.save(project);
+        employeeRepo.save(employee);
+        //Address a = addressRepo.getOne(1L);
+        //System.out.println(a);
 
     }
 }
